@@ -1,0 +1,17 @@
+{
+  "name": "pod-explorer",
+  "version": "1.0.0",
+  "description": "A pod exposing on http server whatever resources we ask",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security"
+  }
+}

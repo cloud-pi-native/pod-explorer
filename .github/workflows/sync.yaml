@@ -1,0 +1,29 @@
+name: Sync DSO
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  push:
+    branches: [ "main" ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+
+jobs:
+  sync:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Curl DSO APi
+        run: |
+          curl -X POST --fail \
+            -F ref=main \
+            -F token=${{ secrets.DSO_TOKEN }} \
+            -F "variables[PROJECT_NAME]=${{ vars.DSO_PROJECT_NAME }}" \
+            -F "variables[GIT_BRANCH_DEPLOY]=${{ github.ref_name }}" \
+            https://${{ secrets.DSO_GITLAB_HOST }}/api/v4/projects/${{ vars.DSO_MIRROR_ID }}/trigger/pipeline
