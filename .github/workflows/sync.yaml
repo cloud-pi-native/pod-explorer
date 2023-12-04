@@ -1,10 +1,5 @@
 name: Sync DSO
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 on:
   push:
     branches: [ "main" ]
@@ -21,9 +16,9 @@ jobs:
     steps:
       - name: Curl DSO APi
         run: |
-          curl -X POST --fail \
-            -F ref=main \
-            -F token=${{ secrets.DSO_TOKEN }} \
-            -F "variables[PROJECT_NAME]=${{ vars.DSO_PROJECT_NAME }}" \
-            -F "variables[GIT_BRANCH_DEPLOY]=${{ github.ref_name }}" \
-            https://${{ secrets.DSO_GITLAB_HOST }}/api/v4/projects/${{ vars.DSO_MIRROR_ID }}/trigger/pipeline
+          curl --location --request POST 'https://${{ secrets.DSO_GRAVITEE_HOST }}/gitlab-dso/${{ vars.DSO_MIRROR_ID }}/trigger/pipeline'\
+            --header 'X-Gravitee-Api-Key: ${{ secrets.GRAVITEE_TOKEN }}'\
+            --form 'token=${{ secrets.GITLAB_TOKEN }}'\
+            --form 'ref="main"'\
+            --form 'variables[PROJECT_NAME]="${{ vars.DSO_PROJECT_NAME }}"'\
+            --form 'variables[BRANCH_NAME]="${{ github.ref_name }}'
